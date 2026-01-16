@@ -23,8 +23,6 @@
 - [Testing & Validation](#-testing--validation)
 - [Docker Deployment](#-docker-deployment)
 - [Monitoring & Observability](#-monitoring--observability)
-- [Production Considerations](#-production-considerations)
-- [Technologies Used](#-technologies-used)
 
 ---
 
