@@ -67,7 +67,7 @@ This project implements a **complete predictive maintenance system** for monitor
 - ✅ **Prediction Intervals** (confidence intervals) for uncertainty quantification
 - ✅ **Model Evaluation** with business-aware metrics
 
-### MLOps & Production
+### MLFlow
 - ✅ **MLflow Experiment Tracking** for reproducible model training
 - ✅ **Baseline & Hyperparameter Search Tracking** with nested Optuna runs
 - ✅ **Logged Metrics & Artifacts** (MAE, RMSE, model binaries, feature lists)
