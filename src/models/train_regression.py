@@ -1,3 +1,8 @@
+import mlflow
+import mlflow.sklearn
+
+mlflow.set_experiment("DPF_Soot_Load_Prediction")
+
 from dataclasses import dataclass
 from pathlib import Path
 import joblib
@@ -5,7 +10,13 @@ import numpy as np
 import pandas as pd
 import lightgbm as lgb
 from sklearn.metrics import mean_absolute_error, mean_squared_error
-from src.models.uncertainty import fit_residual_interval, save_interval, coverage_score
+
+from src.models.uncertainty import (
+    fit_residual_interval,
+    save_interval,
+    coverage_score
+)
+from src.monitoring.drift import compute_baseline_stats
 
 
 @dataclass
@@ -43,53 +54,42 @@ def prepare_features(df: pd.DataFrame, cfg: TrainConfig):
     Drop non-feature columns and handle NaNs safely.
     """
     df = df.copy()
-
-    # Ensure timestamp type
     df[cfg.timestamp_col] = pd.to_datetime(df[cfg.timestamp_col])
 
-    # Drop columns that should NOT be used as raw features
     drop_cols = [
         cfg.target_col,
-        "notes",           # text
-        "maint_ts",        # timestamp of maintenance event (can leak/hard to model)
+        "notes",
+        "maint_ts",
     ]
 
-    # Optional: drop raw action_type (string) OR encode it.
-    # We’ll use safe encoding:
-    # missing => "none"
     if "action_type" in df.columns:
         df["action_type"] = df["action_type"].fillna("none")
 
-    # regen_success sometimes missing
     if "regen_success" in df.columns:
         df["regen_success"] = df["regen_success"].fillna(False).astype(int)
 
-    # time_since_last_regen_min is a core feature but has NaNs early -> fill with large number
     if "time_since_last_regen_min" in df.columns:
         df["time_since_last_regen_min"] = df["time_since_last_regen_min"].fillna(1e6)
 
-    # Same for maint mins
     if "time_since_last_maint_min" in df.columns:
         df["time_since_last_maint_min"] = df["time_since_last_maint_min"].fillna(1e6)
 
-    # Remaining rolling NaNs -> fill using forward fill per vehicle, then global fill
-    # This preserves time ordering (no future leakage)
     df = df.sort_values([cfg.vehicle_col, cfg.timestamp_col])
     df = df.groupby(cfg.vehicle_col).apply(lambda g: g.ffill()).reset_index(drop=True)
     df = df.fillna(0)
 
-    # Now separate X/y
     y = df[cfg.target_col].astype(float)
-
     X = df.drop(columns=[c for c in drop_cols if c in df.columns], errors="ignore")
 
-    # Remove identifiers
     for col in [cfg.vehicle_col, cfg.timestamp_col, "trip_id"]:
         if col in X.columns:
             X = X.drop(columns=[col])
 
-    # One-hot encode categorical columns
-    X = pd.get_dummies(X, columns=[c for c in X.columns if X[c].dtype == "object"], drop_first=False)
+    X = pd.get_dummies(
+        X,
+        columns=[c for c in X.columns if X[c].dtype == "object"],
+        drop_first=False
+    )
 
     return X, y
 
@@ -125,51 +125,62 @@ def evaluate_split(name, y_true, y_pred):
 
 
 def train_pipeline(df: pd.DataFrame, cfg: TrainConfig):
-    train_df, val_df, test_df = time_split(df, cfg)
 
-    print("✅ Split sizes:")
-    print("Train:", len(train_df), "Val:", len(val_df), "Test:", len(test_df))
+    with mlflow.start_run(run_name="baseline_lgbm"):
 
-    X_train, y_train = prepare_features(train_df, cfg)
-    X_val, y_val = prepare_features(val_df, cfg)
-    X_test, y_test = prepare_features(test_df, cfg)
+        train_df, val_df, test_df = time_split(df, cfg)
 
-    # Align columns (very important after one-hot)
-    X_train, X_val = X_train.align(X_val, join="left", axis=1, fill_value=0)
-    X_train, X_test = X_train.align(X_test, join="left", axis=1, fill_value=0)
+        X_train, y_train = prepare_features(train_df, cfg)
+        X_val, y_val = prepare_features(val_df, cfg)
+        X_test, y_test = prepare_features(test_df, cfg)
 
+        X_train, X_val = X_train.align(X_val, join="left", axis=1, fill_value=0)
+        X_train, X_test = X_train.align(X_test, join="left", axis=1, fill_value=0)
 
-    print("\n✅ Final feature count:", X_train.shape[1])
+        compute_baseline_stats(train_df=X_train, feature_cols=list(X_train.columns))
 
-    # ✅ NEW: save baseline stats for drift detection
-    from src.monitoring.drift import compute_baseline_stats
-    compute_baseline_stats(train_df=X_train, feature_cols=list(X_train.columns))
-    print("✅ Saved baseline feature stats for drift detection.")	
+        model = train_lgbm_regressor(X_train, y_train, X_val, y_val)
 
-    model = train_lgbm_regressor(X_train, y_train, X_val, y_val)
+        pred_val = model.predict(X_val)
+        pred_test = model.predict(X_test)
 
-    pred_val = model.predict(X_val)
-    pred_test = model.predict(X_test)
+        val_mae, val_rmse = evaluate_split("Validation", y_val, pred_val)
+        test_mae, test_rmse = evaluate_split("Test", y_test, pred_test)
 
-    evaluate_split("Validation", y_val, pred_val)
-    evaluate_split("Test", y_test, pred_test)
+        interval_params = fit_residual_interval(
+            y_true=y_val,
+            y_pred=pred_val,
+            alpha=0.10
+        )
+        save_interval(interval_params)
 
-    # ✅ CI fitting (from validation residuals)
-    interval_params = fit_residual_interval(y_true=y_val, y_pred=pred_val, alpha=0.10)  # 90% PI
-    save_interval(interval_params)
+        coverage = coverage_score(
+            y_true=y_val,
+            y_pred=pred_val,
+            interval_params=interval_params
+        )
 
-    cov = coverage_score(y_true=y_val, y_pred=pred_val, interval_params=interval_params)
-    print("\n✅ Confidence Interval saved: models/prediction_interval.joblib")
-    print(f"✅ 90% PI coverage on validation: {cov*100:.2f}%")
+        Path("models").mkdir(exist_ok=True)
+        joblib.dump(model, cfg.model_out_path)
+        joblib.dump(list(X_train.columns), cfg.feature_list_out_path)
 
+        mlflow.log_params({
+            "model_type": "LightGBM",
+            "n_estimators": 1500,
+            "learning_rate": 0.03,
+            "num_leaves": 64,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8
+        })
 
-    # Save artifacts
-    Path("models").mkdir(exist_ok=True)
-    joblib.dump(model, cfg.model_out_path)
-    joblib.dump(list(X_train.columns), cfg.feature_list_out_path)
+        mlflow.log_metric("val_mae", val_mae)
+        mlflow.log_metric("val_rmse", val_rmse)
+        mlflow.log_metric("test_mae", test_mae)
+        mlflow.log_metric("test_rmse", test_rmse)
+        mlflow.log_metric("pi_coverage_90", coverage)
 
-    print("\n✅ Saved:")
-    print(" -", cfg.model_out_path)
-    print(" -", cfg.feature_list_out_path)
+        mlflow.sklearn.log_model(model, "model")
+        mlflow.log_artifact(cfg.feature_list_out_path)
+        mlflow.log_artifact("models/prediction_interval.joblib")
 
-    return model
+        return model
