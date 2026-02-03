@@ -114,6 +114,21 @@ Traditional reactive maintenance leads to:
 
 ## 🏗️ System Architecture
 
+## 🗂️ Data Tables & Data Flow
+
+### Core Tables
+- **Telemetry Table** (time-series): minute-level sensor readings such as engine load, RPM, exhaust temperature, and differential pressure.
+- **Maintenance Table** (event-based): regeneration and inspection events that partially or fully reset soot accumulation.
+- **Trip Table** (aggregated): trip-level summaries including distance, duration, stop-start count, and driving pattern.
+
+### Data Flow
+1. Raw telemetry, trip, and maintenance data are generated independently.
+2. Tables are joined using time-aware joins to prevent data leakage.
+3. Features are engineered using rolling windows, trends, and historical context.
+4. The trained model predicts soot load, which is converted into maintenance recommendations.
+5. Predictions are served via FastAPI in batch or real-time mode.
+
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                     DATA GENERATION LAYER                        │
