@@ -67,6 +67,11 @@ This project implements a **complete predictive maintenance system** for monitor
 - ✅ **Prediction Intervals** (confidence intervals) for uncertainty quantification
 - ✅ **Model Evaluation** with business-aware metrics
 
+### MLFlow
+- ✅ **MLflow Experiment Tracking** for reproducible model training
+- ✅ **Baseline & Hyperparameter Search Tracking** with nested Optuna runs
+- ✅ **Logged Metrics & Artifacts** (MAE, RMSE, model binaries, feature lists)
+
 ### MLOps & Production
 - ✅ **FastAPI REST API** with comprehensive endpoints
 - ✅ **Batch & Real-time Inference** capabilities
@@ -108,6 +113,21 @@ Traditional reactive maintenance leads to:
 ---
 
 ## 🏗️ System Architecture
+
+## 🗂️ Data Tables & Data Flow
+
+### Core Tables
+- **Telemetry Table** (time-series): minute-level sensor readings such as engine load, RPM, exhaust temperature, and differential pressure.
+- **Maintenance Table** (event-based): regeneration and inspection events that partially or fully reset soot accumulation.
+- **Trip Table** (aggregated): trip-level summaries including distance, duration, stop-start count, and driving pattern.
+
+### Data Flow
+1. Raw telemetry, trip, and maintenance data are generated independently.
+2. Tables are joined using time-aware joins to prevent data leakage.
+3. Features are engineered using rolling windows, trends, and historical context.
+4. The trained model predicts soot load, which is converted into maintenance recommendations.
+5. Predictions are served via FastAPI in batch or real-time mode.
+
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -397,6 +417,16 @@ models/
   "reg_lambda": 0.5
 }
 ```
+
+### Viewing Experiment Results
+
+After running model training or hyperparameter tuning, launch the MLflow UI:
+
+```bash
+mlflow ui
+Then open in a browser:
+
+http://localhost:5000
 
 ---
 
