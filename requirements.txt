@@ -1,28 +1,38 @@
+# ----------------------------
 # Core ML & Data
+# ----------------------------
 numpy==1.26.4
 pandas==2.1.4
 scikit-learn==1.3.2
 lightgbm==4.1.0
 joblib==1.3.2
 
+# ----------------------------
 # API
+# ----------------------------
 fastapi==0.104.1
 uvicorn==0.23.2
-starlette==0.27.0
 pydantic==2.5.3
 python-multipart==0.0.9
-anyio==4.2.0
 
+# ----------------------------
 # Experiment Tracking & HPT
+# ----------------------------
 mlflow==2.9.2
 optuna==3.4.0
 
-# Caching / Streaming
+# ----------------------------
+# Streaming / Cache
+# ----------------------------
 redis==5.0.8
 
+# ----------------------------
 # Utilities
-PyYAML==6.0.1
+# ----------------------------
 requests==2.32.3
+PyYAML==6.0.1
 
-# CLI dependency (Python 3.9 compatible)
+# ----------------------------
+# CLI (Python 3.9 compatible)
+# ----------------------------
 click==8.1.7
