@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/97272f7790c543f58b2a97eb30eb7c76/artifacts
+end_time: 1770567881858
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 97272f7790c543f58b2a97eb30eb7c76
+run_name: unruly-crow-419
+run_uuid: 97272f7790c543f58b2a97eb30eb7c76
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770567752699
+status: 3
+tags: []
+user_id: darshan__gantra

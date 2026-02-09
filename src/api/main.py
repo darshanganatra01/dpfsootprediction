@@ -77,18 +77,198 @@ def model_info():
 def _predict_from_features_dict(features: dict) -> float:
     """
     Convert dict -> dataframe aligned with training features.
-    Missing features will be filled with 0.
-    Extra features will be ignored.
+    Since we don't have historical data in single-shot API,
+    we fill engineered features with reasonable defaults.
     """
-    X = pd.DataFrame([features])
+    # Start with provided features
+    row = features.copy()
+    
+    # ============================================
+    # FILL MISSING FEATURES WITH SMART DEFAULTS
+    # ============================================
+    
+    # Get key values
+    temp_pre = float(row.get("exhaust_temp_pre_dpf_c", 400))
+    temp_post = float(row.get("exhaust_temp_post_dpf_c", temp_pre - 20))
+    pressure = float(row.get("differential_pressure_kpa", 10))
+    flow = float(row.get("exhaust_flow_rate", 150))
+    speed = float(row.get("vehicle_speed_kmh", 50))
+    load = float(row.get("engine_load_pct", 50))
+    
+    # ============================================
+    # 🔥 CRITICAL FIX: Trip features based on pressure
+    # ============================================
+    # Higher pressure = vehicle has been operating longer
+    # These are CUMULATIVE since last regen, not just current trip
+    
+    if pressure >= 25:
+        # Very high pressure = long operation time
+        row.setdefault("duration_min", 2400.0)  # 40 hours
+        row.setdefault("distance_km", 800.0)     # ~800 km
+        row.setdefault("stop_start_count", 150)
+    elif pressure >= 20:
+        row.setdefault("duration_min", 1800.0)  # 30 hours
+        row.setdefault("distance_km", 600.0)
+        row.setdefault("stop_start_count", 100)
+    elif pressure >= 15:
+        # 🔥 THIS IS YOUR CITY TRUCK CASE
+        row.setdefault("duration_min", 1200.0)  # 20 hours of operation
+        row.setdefault("distance_km", 400.0)     # 400 km traveled
+        row.setdefault("stop_start_count", 80)   # Lots of stops (city)
+    elif pressure >= 10:
+        row.setdefault("duration_min", 600.0)   # 10 hours
+        row.setdefault("distance_km", 300.0)
+        row.setdefault("stop_start_count", 40)
+    else:
+        # Low pressure = recently regenerated
+        row.setdefault("duration_min", 120.0)   # 2 hours
+        row.setdefault("distance_km", 100.0)
+        row.setdefault("stop_start_count", 10)
+    
+    # Maintenance features
+    row.setdefault("regen_success", 0)
+    row.setdefault("time_since_last_maint_min", row["duration_min"])  # Match duration
+    
+    # ============================================
+    # 1) Basic derived features
+    # ============================================
+    row["temp_delta_dpf_c"] = temp_post - temp_pre
+    row["pressure_norm"] = pressure / (flow + 1e-6)
+    row["load_speed_ratio"] = load / (speed + 1e-3)
+    
+    # ============================================
+    # 2) Rolling window features
+    # ============================================
+    is_city_driving = pressure >= 15 or (speed < 60 and load > 60)
+    is_heavy_load = load > 75
+    is_cold = temp_pre < 320
 
-    # convert object columns to one-hot (safe)
+    for window in ["10min", "30min", "60min"]:
+        row[f"temp_pre_roll_mean_{window}"] = temp_pre
+
+        if window == "10min":
+            if is_city_driving or is_heavy_load:
+                row[f"temp_pre_roll_std_{window}"] = 12.0
+            elif is_cold:
+                row[f"temp_pre_roll_std_{window}"] = 8.0
+            else:
+                row[f"temp_pre_roll_std_{window}"] = 5.0
+        elif window == "30min":
+            if is_city_driving or is_heavy_load:
+                row[f"temp_pre_roll_std_{window}"] = 15.0
+            elif is_cold:
+                row[f"temp_pre_roll_std_{window}"] = 12.0
+            else:
+                row[f"temp_pre_roll_std_{window}"] = 8.0
+        else:  # 60min
+            if is_city_driving or is_heavy_load:
+                row[f"temp_pre_roll_std_{window}"] = 18.0
+            elif is_cold:
+                row[f"temp_pre_roll_std_{window}"] = 15.0
+            else:
+                row[f"temp_pre_roll_std_{window}"] = 12.0
+
+        row[f"pressure_roll_mean_{window}"] = pressure
+
+        if is_city_driving or is_cold:
+            row[f"pressure_trend_{window}"] = 0.10
+        else:
+            row[f"pressure_trend_{window}"] = 0.0
+    
+    # ============================================
+    # 3) High temperature streak
+    # ============================================
+    HIGH_TEMP = 380.0
+    COLD_TEMP = 320.0
+
+    if temp_pre >= HIGH_TEMP:
+        row["high_temp_streak_min"] = min(20.0, (temp_pre - HIGH_TEMP) / 4)
+    else:
+        row["high_temp_streak_min"] = 0.0
+    
+    # ============================================
+    # 4) Driving mode distribution
+    # ============================================
+    if speed < 5:
+        row["pct_idle_60min"] = 0.8
+        row["pct_city_60min"] = 0.15
+        row["pct_highway_60min"] = 0.05
+    elif speed < 60:
+        row["pct_idle_60min"] = 0.15
+        row["pct_city_60min"] = 0.75
+        row["pct_highway_60min"] = 0.10
+    else:  # highway
+        row["pct_idle_60min"] = 0.02
+        row["pct_city_60min"] = 0.10
+        row["pct_highway_60min"] = 0.88
+    
+    # ============================================
+    # 5) Regen-related features
+    # ============================================
+    row["is_regen_event"] = 1 if temp_pre > 500 else 0
+
+    # Time since last regen (matches duration for consistency)
+    if pressure >= 25:
+        row["time_since_last_regen_min"] = 3600.0
+    elif pressure >= 20:
+        row["time_since_last_regen_min"] = 2800.0
+    elif pressure >= 15:
+        row["time_since_last_regen_min"] = 2000.0
+    elif pressure >= 10:
+        row["time_since_last_regen_min"] = 1200.0
+    else:
+        row["time_since_last_regen_min"] = 300.0
+    
+    # Apply multipliers
+    multiplier = 1.0
+    if is_cold:
+        multiplier *= 1.5
+    if is_city_driving and speed < 60:
+        multiplier *= 1.3
+    if is_heavy_load:
+        multiplier *= 1.2
+    
+    row["time_since_last_regen_min"] = row["time_since_last_regen_min"] * multiplier
+    
+    # Regen opportunity score
+    highway_factor = row["pct_highway_60min"]
+    if row["high_temp_streak_min"] > 0:
+        temp_factor = min(1.0, row["high_temp_streak_min"] / 20)
+    else:
+        temp_factor = 0.0
+    
+    row["regen_opportunity_score"] = 0.6 * highway_factor + 0.4 * temp_factor
+    
+    # ============================================
+    # 6) One-hot encoded features
+    # ============================================
+    if speed < 5:
+        pattern = "idle"
+    elif speed < 60 and load > 70:
+        pattern = "heavy_load"
+    elif speed >= 60:
+        pattern = "highway"
+    else:
+        pattern = "city"
+    
+    row["driving_pattern_city"] = 1 if pattern == "city" else 0
+    row["driving_pattern_heavy_load"] = 1 if pattern == "heavy_load" else 0
+    row["driving_pattern_highway"] = 1 if pattern == "highway" else 0
+    row["driving_pattern_idle"] = 1 if pattern == "idle" else 0
+    
+    row["action_type_active"] = 0
+    row["action_type_none"] = 1
+    row["action_type_passive"] = 0
+    
+    # ============================================
+    # Convert to DataFrame and predict
+    # ============================================
+    X = pd.DataFrame([row])
     X = pd.get_dummies(X, drop_first=False)
-
-    # align with training features
     X = X.reindex(columns=feature_list, fill_value=0)
-
+    
     pred = float(model.predict(X)[0])
+    
     return pred
 
 
@@ -135,9 +315,6 @@ def predict_single(req: PredictRequest):
           drifted_features=drifted,
      )
 
-
-
-
 @APP.post("/predict/batch", response_model=BatchPredictResponse)
 def predict_batch(req: BatchPredictRequest):
     results = []
@@ -145,22 +322,37 @@ def predict_batch(req: BatchPredictRequest):
         validate_features(item.features)
         soot_pred = _predict_from_features_dict(item.features)
 
+        # ✅ ADD: Calculate confidence intervals (was missing!)
+        low, high = apply_interval(soot_pred, interval_params)
+        ci_level = 1.0 - float(interval_params["alpha"])
+
         row = pd.Series(item.features)
         row["soot_pred"] = soot_pred
+        
         rec = recommend_action(row)
+        
+        # ✅ ADD: Drift detection (optional but good)
+        drifted = detect_feature_drift(item.features, baseline_stats)
 
         results.append(
             PredictResponse(
                 vehicle_id=item.vehicle_id,
                 timestamp=item.timestamp,
                 soot_pred_pct=soot_pred,
+                soot_pred_low_pct=low,           # ✅ FIXED: was missing
+                soot_pred_high_pct=high,          # ✅ FIXED: was missing
+                ci_level=ci_level,                # ✅ FIXED: was missing
                 recommended_action=rec["recommended_action"],
                 priority=rec["priority"],
                 reason=rec["reason"],
+                drifted_features=drifted,         # ✅ FIXED: was missing
             )
         )
 
     return BatchPredictResponse(results=results)
+
+
+
 
 
 def validate_features(features: dict):

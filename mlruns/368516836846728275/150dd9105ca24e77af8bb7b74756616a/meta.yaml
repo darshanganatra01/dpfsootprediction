@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/150dd9105ca24e77af8bb7b74756616a/artifacts
+end_time: 1770262086432
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 150dd9105ca24e77af8bb7b74756616a
+run_name: blushing-bear-789
+run_uuid: 150dd9105ca24e77af8bb7b74756616a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770261858908
+status: 3
+tags: []
+user_id: darshan__gantra

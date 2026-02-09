@@ -27,21 +27,31 @@ def simulate_soot_and_maintenance(cfg: SimConfig, telemetry_df: pd.DataFrame, ve
         rolling_temp = float(np.mean(temp_window))
         rolling_speed = float(np.mean(speed_window))
 
-        # accumulation
-        city_bonus = 0.02 if row.driving_pattern == "city" else 0.0
-        idle_bonus = 0.03 if row.vehicle_speed_kmh < 5 else 0.0
-        accum = 0.01 * row.engine_load_pct + city_bonus + idle_bonus
+        # accumulation: base + aggressive driving pattern + strong temperature dependency
+        # AGGRESSIVE bonuses to match real-world physics
+        city_bonus = 0.08 if row.driving_pattern == "city" else 0.0  # was 0.035 - much more aggressive
+        idle_bonus = 0.06 if row.vehicle_speed_kmh < 5 else 0.0  # was 0.04
+
+        # Cold weather significantly increases soot accumulation (much worse combustion efficiency)
+        # Real-world: Cold engines produce MUCH more soot
+        cold_bonus = 0.0
+        if row.exhaust_temp_pre_dpf_c < 250:
+            cold_bonus = 0.05 * (250 - row.exhaust_temp_pre_dpf_c) / 100  # was 0.02
+        elif row.exhaust_temp_pre_dpf_c < 300:
+            cold_bonus = 0.015 * (300 - row.exhaust_temp_pre_dpf_c) / 100  # was 0.005
+
+        accum = 0.015 * row.engine_load_pct + city_bonus + idle_bonus + cold_bonus  # base was 0.01
 
         # burnoff
         burnoff = 0.05 * _sigmoid((row.exhaust_temp_pre_dpf_c - 320) / 20)
 
         soot_state = soot_state + accum - burnoff
 
-        # passive regen condition
+        # passive regen condition: high temp + sustained speed (not pattern-limited)
+        # Passive regen can happen on any road type, but highway is most common
         passive_ok = (
             (rolling_temp > cfg.passive_temp_thresh) and
-            (rolling_speed > cfg.passive_speed_thresh) and
-            (row.driving_pattern == "highway")
+            (rolling_speed > cfg.passive_speed_thresh)
         )
 
         did_passive = passive_ok and (rng.random() < 0.25)

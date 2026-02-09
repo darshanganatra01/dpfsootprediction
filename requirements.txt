@@ -11,7 +11,7 @@ uvicorn==0.23.2
 starlette==0.27.0
 pydantic==2.5.3
 python-multipart==0.0.9
-anyio==4.2.0
+anyio==3.7.1
 
 # Experiment Tracking & HPT
 mlflow==2.9.2

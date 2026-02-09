@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/7eb99a10f0754d7b9465e63c0333e872/artifacts
+end_time: 1770568983658
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 7eb99a10f0754d7b9465e63c0333e872
+run_name: inquisitive-fawn-198
+run_uuid: 7eb99a10f0754d7b9465e63c0333e872
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770568050433
+status: 3
+tags: []
+user_id: darshan__gantra

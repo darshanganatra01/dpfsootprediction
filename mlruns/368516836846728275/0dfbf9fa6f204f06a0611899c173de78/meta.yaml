@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/0dfbf9fa6f204f06a0611899c173de78/artifacts
+end_time: 1770267684866
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 0dfbf9fa6f204f06a0611899c173de78
+run_name: monumental-sow-877
+run_uuid: 0dfbf9fa6f204f06a0611899c173de78
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770267545017
+status: 3
+tags: []
+user_id: darshan__gantra

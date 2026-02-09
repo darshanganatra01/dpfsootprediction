@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/e9c877420deb4584ab70f1ae7ae595c9/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: e9c877420deb4584ab70f1ae7ae595c9
+run_name: fortunate-cat-154
+run_uuid: e9c877420deb4584ab70f1ae7ae595c9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770262591337
+status: 1
+tags: []
+user_id: darshan__gantra

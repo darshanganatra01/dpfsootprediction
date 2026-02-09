@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/5dbe4ba8bce64176bedce0564e079fd1/artifacts
+end_time: 1770262527606
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 5dbe4ba8bce64176bedce0564e079fd1
+run_name: useful-goose-633
+run_uuid: 5dbe4ba8bce64176bedce0564e079fd1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770262497846
+status: 3
+tags: []
+user_id: darshan__gantra

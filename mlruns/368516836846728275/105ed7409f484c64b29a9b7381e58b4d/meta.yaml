@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/105ed7409f484c64b29a9b7381e58b4d/artifacts
+end_time: 1770566980450
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 105ed7409f484c64b29a9b7381e58b4d
+run_name: defiant-fish-305
+run_uuid: 105ed7409f484c64b29a9b7381e58b4d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770566928016
+status: 3
+tags: []
+user_id: darshan__gantra

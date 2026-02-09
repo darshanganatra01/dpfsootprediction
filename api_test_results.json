@@ -1,0 +1,173 @@
+[
+  {
+    "test": "API server running",
+    "status": "PASS",
+    "message": "Server responded with 200",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.407322"
+  },
+  {
+    "test": "/health status code",
+    "status": "PASS",
+    "message": "200 OK",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.413247"
+  },
+  {
+    "test": "/health has 'status' field",
+    "status": "PASS",
+    "message": "Value: ok",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.413409"
+  },
+  {
+    "test": "/health has 'model_loaded' field",
+    "status": "PASS",
+    "message": "Value: True",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.413491"
+  },
+  {
+    "test": "/health response",
+    "status": "PASS",
+    "message": "Valid JSON response",
+    "details": {
+      "status": "ok",
+      "model_loaded": true,
+      "n_features": 42
+    },
+    "timestamp": "2026-02-08T17:53:45.413561"
+  },
+  {
+    "test": "/model/info status code",
+    "status": "PASS",
+    "message": "200 OK",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.420402"
+  },
+  {
+    "test": "/model/info has 'model_type' field",
+    "status": "PASS",
+    "message": "Value: LightGBMRegressor",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.420971"
+  },
+  {
+    "test": "/model/info has 'version' field",
+    "status": "FAIL",
+    "message": "Required field missing",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.421051"
+  },
+  {
+    "test": "/model/info has 'training_date' field",
+    "status": "FAIL",
+    "message": "Required field missing",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.421075"
+  },
+  {
+    "test": "/model/info has 'features_count' field",
+    "status": "FAIL",
+    "message": "Required field missing",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.421129"
+  },
+  {
+    "test": "/model/info response",
+    "status": "PASS",
+    "message": "Valid response",
+    "details": {
+      "model_type": "LightGBMRegressor",
+      "target": "soot_load_pct",
+      "n_features": 42,
+      "features": [
+        "vehicle_speed_kmh",
+        "engine_load_pct",
+        "engine_rpm",
+        "ambient_temp_c",
+        "exhaust_flow_rate",
+        "exhaust_temp_pre_dpf_c",
+        "exhaust_temp_post_dpf_c",
+        "differential_pressure_kpa",
+        "distance_km",
+        "duration_min",
+        "stop_start_count",
+        "regen_success",
+        "time_since_last_maint_min",
+        "temp_delta_dpf_c",
+        "pressure_norm",
+        "load_speed_ratio",
+        "temp_pre_roll_mean_10min",
+        "temp_pre_roll_std_10min",
+        "pressure_roll_mean_10min",
+        "pressure_trend_10min",
+        "temp_pre_roll_mean_30min",
+        "temp_pre_roll_std_30min",
+        "pressure_roll_mean_30min",
+        "pressure_trend_30min",
+        "temp_pre_roll_mean_60min",
+        "temp_pre_roll_std_60min",
+        "pressure_roll_mean_60min",
+        "pressure_trend_60min",
+        "high_temp_streak_min",
+        "pct_idle_60min",
+        "pct_city_60min",
+        "pct_highway_60min",
+        "is_regen_event",
+        "time_since_last_regen_min",
+        "regen_opportunity_score",
+        "driving_pattern_city",
+        "driving_pattern_heavy_load",
+        "driving_pattern_highway",
+        "driving_pattern_idle",
+        "action_type_active",
+        "action_type_none",
+        "action_type_passive"
+      ]
+    },
+    "timestamp": "2026-02-08T17:53:45.421211"
+  },
+  {
+    "test": "/predict/soot-load status code",
+    "status": "FAIL",
+    "message": "Expected 200, got 422",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.428807"
+  },
+  {
+    "test": "/predict/batch status code",
+    "status": "FAIL",
+    "message": "Expected 200, got 422",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.434959"
+  },
+  {
+    "test": "High soot scenario",
+    "status": "FAIL",
+    "message": "Status code: 422",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.440982"
+  },
+  {
+    "test": "Low soot scenario",
+    "status": "FAIL",
+    "message": "Status code: 422",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.447604"
+  },
+  {
+    "test": "Missing features handling",
+    "status": "PASS",
+    "message": "Status code: 422",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.452917"
+  },
+  {
+    "test": "/ingest/telemetry",
+    "status": "FAIL",
+    "message": "Status code: 422",
+    "details": null,
+    "timestamp": "2026-02-08T17:53:45.459858"
+  }
+]

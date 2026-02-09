@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/c85fe0489ba84c9faf586c6ee9fa5f72/artifacts
+end_time: 1770574765411
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: c85fe0489ba84c9faf586c6ee9fa5f72
+run_name: exultant-shrike-404
+run_uuid: c85fe0489ba84c9faf586c6ee9fa5f72
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770573434048
+status: 3
+tags: []
+user_id: darshan__gantra

@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/d479460e1cbb4f2db32e04bce94b15aa/artifacts
+end_time: 1770268859573
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: d479460e1cbb4f2db32e04bce94b15aa
+run_name: judicious-crab-445
+run_uuid: d479460e1cbb4f2db32e04bce94b15aa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770268727704
+status: 3
+tags: []
+user_id: darshan__gantra

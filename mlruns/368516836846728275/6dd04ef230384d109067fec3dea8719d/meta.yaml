@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/6dd04ef230384d109067fec3dea8719d/artifacts
+end_time: 1770267769164
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 6dd04ef230384d109067fec3dea8719d
+run_name: omniscient-perch-961
+run_uuid: 6dd04ef230384d109067fec3dea8719d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770267685091
+status: 3
+tags: []
+user_id: darshan__gantra

@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/36451ce43f234ff6887adf07c65bdec3/artifacts
+end_time: 1770268727659
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 36451ce43f234ff6887adf07c65bdec3
+run_name: amusing-skunk-446
+run_uuid: 36451ce43f234ff6887adf07c65bdec3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770268615370
+status: 3
+tags: []
+user_id: darshan__gantra

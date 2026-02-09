@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/be278436141248518d107226f6429969/artifacts
+end_time: 1770560333091
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: be278436141248518d107226f6429969
+run_name: skillful-seal-134
+run_uuid: be278436141248518d107226f6429969
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770560117322
+status: 3
+tags: []
+user_id: darshan__gantra

@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/025ecb2a2cb04fd3a3288d0a06dd3988/artifacts
+end_time: 1770262215902
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 025ecb2a2cb04fd3a3288d0a06dd3988
+run_name: burly-robin-592
+run_uuid: 025ecb2a2cb04fd3a3288d0a06dd3988
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770262086509
+status: 3
+tags: []
+user_id: darshan__gantra

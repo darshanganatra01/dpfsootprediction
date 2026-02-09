@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-02-08T17:59:30.227443",
+  "total": 10,
+  "passed": 9,
+  "failed": 1,
+  "results": {
+    "health": true,
+    "model_info": true,
+    "predict_single": true,
+    "predict_batch": false,
+    "ingest_telemetry": true,
+    "predict_from_raw": true,
+    "edge_high_soot": true,
+    "edge_low_soot": true,
+    "edge_minimal": true,
+    "edge_invalid": true
+  }
+}

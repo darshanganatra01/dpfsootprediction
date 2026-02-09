@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/db436cf255434d82bf3ddfd600345533/artifacts
+end_time: 1770567151998
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: db436cf255434d82bf3ddfd600345533
+run_name: magnificent-bat-120
+run_uuid: db436cf255434d82bf3ddfd600345533
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770567018008
+status: 3
+tags: []
+user_id: darshan__gantra

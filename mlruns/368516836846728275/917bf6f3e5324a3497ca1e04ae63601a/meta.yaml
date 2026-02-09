@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/917bf6f3e5324a3497ca1e04ae63601a/artifacts
+end_time: 1770566604294
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 917bf6f3e5324a3497ca1e04ae63601a
+run_name: incongruous-gnu-351
+run_uuid: 917bf6f3e5324a3497ca1e04ae63601a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770566537245
+status: 3
+tags: []
+user_id: darshan__gantra

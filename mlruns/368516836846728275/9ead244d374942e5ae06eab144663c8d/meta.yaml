@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/9ead244d374942e5ae06eab144663c8d/artifacts
+end_time: 1770573433487
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 9ead244d374942e5ae06eab144663c8d
+run_name: casual-cow-568
+run_uuid: 9ead244d374942e5ae06eab144663c8d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770572037309
+status: 3
+tags: []
+user_id: darshan__gantra

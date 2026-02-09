@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/acd150fd7ef94b1ab3407b52c5ee50de/artifacts
+end_time: 1770262497805
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: acd150fd7ef94b1ab3407b52c5ee50de
+run_name: painted-cat-246
+run_uuid: acd150fd7ef94b1ab3407b52c5ee50de
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770262349971
+status: 3
+tags: []
+user_id: darshan__gantra

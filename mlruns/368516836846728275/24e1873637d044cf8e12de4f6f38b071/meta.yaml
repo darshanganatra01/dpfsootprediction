@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/24e1873637d044cf8e12de4f6f38b071/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 24e1873637d044cf8e12de4f6f38b071
+run_name: baseline_lgbm
+run_uuid: 24e1873637d044cf8e12de4f6f38b071
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770559824897
+status: 1
+tags: []
+user_id: darshan__gantra

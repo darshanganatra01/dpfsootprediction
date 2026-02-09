@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/b0a9df75f0d6422ea44db0020f9bfb15/artifacts
+end_time: 1770270138453
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: b0a9df75f0d6422ea44db0020f9bfb15
+run_name: tasteful-ape-762
+run_uuid: b0a9df75f0d6422ea44db0020f9bfb15
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770269963633
+status: 3
+tags: []
+user_id: darshan__gantra

@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/8937a76e8e5c4704a35ef63f2ed68d09/artifacts
+end_time: 1770267886746
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 8937a76e8e5c4704a35ef63f2ed68d09
+run_name: loud-squirrel-770
+run_uuid: 8937a76e8e5c4704a35ef63f2ed68d09
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770267820718
+status: 3
+tags: []
+user_id: darshan__gantra

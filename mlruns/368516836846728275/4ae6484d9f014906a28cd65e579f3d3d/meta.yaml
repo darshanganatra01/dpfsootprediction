@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/4ae6484d9f014906a28cd65e579f3d3d/artifacts
+end_time: 1770268247202
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 4ae6484d9f014906a28cd65e579f3d3d
+run_name: dazzling-dog-667
+run_uuid: 4ae6484d9f014906a28cd65e579f3d3d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770268161068
+status: 3
+tags: []
+user_id: darshan__gantra

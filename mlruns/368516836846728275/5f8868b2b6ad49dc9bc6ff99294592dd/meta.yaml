@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/5f8868b2b6ad49dc9bc6ff99294592dd/artifacts
+end_time: 1770269368161
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 5f8868b2b6ad49dc9bc6ff99294592dd
+run_name: gregarious-slug-677
+run_uuid: 5f8868b2b6ad49dc9bc6ff99294592dd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770269319696
+status: 3
+tags: []
+user_id: darshan__gantra

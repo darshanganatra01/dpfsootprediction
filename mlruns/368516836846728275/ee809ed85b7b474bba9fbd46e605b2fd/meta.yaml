@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/ee809ed85b7b474bba9fbd46e605b2fd/artifacts
+end_time: 1770567017983
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: ee809ed85b7b474bba9fbd46e605b2fd
+run_name: hilarious-quail-692
+run_uuid: ee809ed85b7b474bba9fbd46e605b2fd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770566980472
+status: 3
+tags: []
+user_id: darshan__gantra

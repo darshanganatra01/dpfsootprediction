@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/b5c506c2d9704c9f8cf8102ab832556c/artifacts
+end_time: 1770569306449
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: b5c506c2d9704c9f8cf8102ab832556c
+run_name: bemused-bear-857
+run_uuid: b5c506c2d9704c9f8cf8102ab832556c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770568983911
+status: 3
+tags: []
+user_id: darshan__gantra

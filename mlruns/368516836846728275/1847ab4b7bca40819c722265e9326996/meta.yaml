@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/1847ab4b7bca40819c722265e9326996/artifacts
+end_time: 1770270834217
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: 1847ab4b7bca40819c722265e9326996
+run_name: optuna_best_model
+run_uuid: 1847ab4b7bca40819c722265e9326996
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770270712328
+status: 3
+tags: []
+user_id: darshan__gantra

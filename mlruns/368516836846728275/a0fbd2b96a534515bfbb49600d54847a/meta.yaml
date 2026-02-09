@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/a0fbd2b96a534515bfbb49600d54847a/artifacts
+end_time: 1770567994559
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: a0fbd2b96a534515bfbb49600d54847a
+run_name: respected-fawn-19
+run_uuid: a0fbd2b96a534515bfbb49600d54847a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770567919730
+status: 3
+tags: []
+user_id: darshan__gantra

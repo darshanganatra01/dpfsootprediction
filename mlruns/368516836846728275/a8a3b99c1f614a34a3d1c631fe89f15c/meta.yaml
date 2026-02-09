@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/ganat/OneDrive/Desktop/Tensorplanet/dpfsootprediction/mlruns/368516836846728275/a8a3b99c1f614a34a3d1c631fe89f15c/artifacts
+end_time: 1770270631883
+entry_point_name: ''
+experiment_id: '368516836846728275'
+lifecycle_stage: active
+run_id: a8a3b99c1f614a34a3d1c631fe89f15c
+run_name: bold-whale-933
+run_uuid: a8a3b99c1f614a34a3d1c631fe89f15c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770270456198
+status: 3
+tags: []
+user_id: darshan__gantra

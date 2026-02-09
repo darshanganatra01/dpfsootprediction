@@ -8,7 +8,7 @@ def main():
     cfg = TrainConfig()
 
     # 🔧 tune trials (start small)
-    n_trials = 30
+    n_trials = 20
 
     print(f"🚀 Starting Optuna HPT with {n_trials} trials...")
     study = run_optuna_hpt(df, cfg, n_trials=n_trials)
